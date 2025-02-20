@@ -19,7 +19,6 @@ export const metadata: Metadata = {
   description: "Gestiona tus contactos y eventos de manera simple y eficiente",
   keywords: "agenda, contactos, eventos, organizador personal",
   authors: [{ name: "Adrian Calcinas" }],
-  viewport: "width=device-width, initial-scale=1",
   robots: "index, follow",
   category: "productivity",
 };
