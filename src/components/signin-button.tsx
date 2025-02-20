@@ -9,7 +9,7 @@ export function SignIn() {
   const handleSignIn = async () => {
     try {
       setIsLoading(true);
-      await signIn("github", { callbackUrl: "/dashboard" });
+      await signIn("github", { callbackUrl: "/" });
     } catch (error) {
       console.error("Error al iniciar sesión:", error);
     } finally {
