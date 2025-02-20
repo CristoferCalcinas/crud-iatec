@@ -1,16 +1,13 @@
-import Image from "next/image";
-import { SignIn } from "../components/signin-button";
-import { auth } from "@/auth";
-import { SignOut } from "../components/signout-button";
+"use client";
 
-export default async function Home() {
-  const session = await auth();
-  console.log({ session });
+import { AgendaPageComponent } from "../agenda/agenda-page-component";
 
+export default function AgendaPage() {
   return (
-    <section>
-      <div></div>
-      <div></div>
+    <section className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">Mi Agenda</h1>
+
+      <AgendaPageComponent />
     </section>
   );
 }
