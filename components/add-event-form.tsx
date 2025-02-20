@@ -15,6 +15,7 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
+import { createEvent } from "@/src/agenda/actions/create-event";
 
 const eventSchema = z
   .object({
@@ -37,11 +38,7 @@ const eventSchema = z
 
 type EventFormInputs = z.infer<typeof eventSchema>;
 
-interface AddEventFormProps {
-  onAddEvent: (data: EventFormInputs) => void;
-}
-
-export function AddEventForm({ onAddEvent }: AddEventFormProps) {
+export function AddEventForm() {
   const form = useForm<EventFormInputs>({
     resolver: zodResolver(eventSchema),
     defaultValues: {
@@ -51,8 +48,30 @@ export function AddEventForm({ onAddEvent }: AddEventFormProps) {
     },
   });
 
+  const addEvent = async ({
+    title,
+    startTime,
+    endTime,
+    description = "NO DESCRIPTION",
+    location = "NO LOCATION",
+  }: {
+    title: string;
+    startTime: Date;
+    endTime: Date;
+    description?: string;
+    location?: string;
+  }) => {
+    const newEvent = await createEvent({
+      title,
+      startTime,
+      endTime,
+      description,
+      location,
+    });
+  };
+
   const onSubmit = (data: EventFormInputs) => {
-    onAddEvent(data);
+    addEvent(data);
     form.reset();
   };
 

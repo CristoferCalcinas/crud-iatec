@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import { AgendaPageComponent } from "../agenda/agenda-page-component";
 import { Header } from "@/components/header";
 import { prisma } from "@/prisma";
+import { EventList } from "@/components/event-list";
 
 // Función de ayuda para cargar los eventos del usuario.
 async function loadUserAgenda(userId: string) {
@@ -52,14 +53,17 @@ export default async function AgendaPage() {
     }));
   }
 
-  console.log({ title, agenda });
+  // console.log({ title, agenda });
 
   return (
     <>
       <Header />
       <section className="container mx-auto p-4">
         <h1 className="text-xl font-semibold py-7 text-center">{title}</h1>
-        <AgendaPageComponent agenda={agenda} />
+        <AgendaPageComponent />
+
+        <h2 className="text-xl font-semibold py-7 text-center">Eventos</h2>
+        <EventList events={[]} selectedDate={undefined} />
       </section>
     </>
   );
