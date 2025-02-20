@@ -10,9 +10,11 @@ async function loadUserAgenda(userId: string) {
     return await prisma.event.findMany({
       where: { userId },
       select: {
+        id: true,
         title: true,
         description: true,
         createdAt: true,
+        updatedAt: true,
         location: true,
         participants: {
           select: {
@@ -32,9 +34,11 @@ async function loadUserAgenda(userId: string) {
 }
 
 interface Agenda {
+  id: string;
   title: string;
   description: string;
   createdAt: Date;
+  updatedAt: Date;
   location: string;
 }
 
@@ -53,7 +57,7 @@ export default async function AgendaPage() {
     }));
   }
 
-  // console.log({ title, agenda });
+  console.log({ agenda });
 
   return (
     <>
@@ -63,7 +67,7 @@ export default async function AgendaPage() {
         <AgendaPageComponent />
 
         <h2 className="text-xl font-semibold py-7 text-center">Eventos</h2>
-        <EventList events={[]} selectedDate={undefined} />
+        <EventList events={agenda} />
       </section>
     </>
   );
