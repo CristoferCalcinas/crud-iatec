@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -48,6 +48,8 @@ export function AddEventForm() {
     },
   });
 
+  const [error, setError] = useState("");
+
   const addEvent = async ({
     title,
     startTime,
@@ -68,6 +70,9 @@ export function AddEventForm() {
       description,
       location,
     });
+    if (!newEvent) {
+      setError("Primero tienes que iniciar sesión");
+    }
   };
 
   const onSubmit = (data: EventFormInputs) => {
@@ -173,6 +178,8 @@ export function AddEventForm() {
             </FormItem>
           )}
         />
+
+        {error && <FormMessage>{error}</FormMessage>}
 
         <Button type="submit" className="w-full">
           Agregar Evento
