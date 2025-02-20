@@ -21,7 +21,6 @@ export const metadata: Metadata = {
   authors: [{ name: "Adrian Calcinas" }],
   viewport: "width=device-width, initial-scale=1",
   robots: "index, follow",
-  manifest: "/manifest.json",
   themeColor: "#ffffff",
   category: "productivity",
 };
