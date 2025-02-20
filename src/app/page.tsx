@@ -1,6 +1,5 @@
 import { auth } from "@/auth";
 import { AgendaPageComponent } from "../agenda/agenda-page-component";
-import { Header } from "@/components/header";
 import { prisma } from "@/prisma";
 import { EventList } from "@/components/event-list";
 
@@ -60,15 +59,12 @@ export default async function AgendaPage() {
   console.log({ agenda });
 
   return (
-    <>
-      <Header />
-      <section className="container mx-auto p-4">
-        <h1 className="text-xl font-semibold py-7 text-center">{title}</h1>
-        <AgendaPageComponent />
+    <section className="container mx-auto p-4">
+      <h1 className="text-xl font-semibold py-7 text-center">{title}</h1>
+      <AgendaPageComponent />
 
-        <h2 className="text-xl font-semibold py-7 text-center">Eventos</h2>
-        <EventList events={agenda} />
-      </section>
-    </>
+      <h2 className="text-xl font-semibold py-7 text-center">Eventos</h2>
+      <EventList events={agenda} />
+    </section>
   );
 }
