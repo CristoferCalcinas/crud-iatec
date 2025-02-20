@@ -1,13 +1,22 @@
-"use client";
-
+import { auth } from "@/auth";
 import { AgendaPageComponent } from "../agenda/agenda-page-component";
+import { Header } from "@/components/header";
 
-export default function AgendaPage() {
+export default async function AgendaPage() {
+  const session = await auth();
+
+  const title = session?.user?.name
+    ? `Hola, ${session.user.name}, que evento deseas crear?`
+    : "Crear evento";
+
   return (
-    <section className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Mi Agenda</h1>
+    <>
+      <Header />
+      <section className="container mx-auto p-4">
+        <h1 className="text-xl font-semibold py-7 text-center">{title}</h1>
 
-      <AgendaPageComponent />
-    </section>
+        <AgendaPageComponent />
+      </section>
+    </>
   );
 }
