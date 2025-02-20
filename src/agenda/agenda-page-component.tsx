@@ -5,17 +5,34 @@ import { Calendar } from "@/components/ui/calendar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { AddEventForm } from "@/components/add-event-form";
 import { EventList } from "@/components/event-list";
+import { createEvent } from "./actions/create-event";
 
-export const AgendaPageComponent = () => {
+interface Props {
+  agenda: Event[];
+}
+
+interface Event {
+  title: string;
+  description: string;
+  createdAt: Date;
+  location: string;
+}
+
+export const AgendaPageComponent = ({ agenda }: Props) => {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(
     new Date()
   );
-  const [events, setEvents] = useState<{ date: Date; title: string }[]>([]);
+  const [events, setEvents] = useState<Event[]>(agenda);
 
-  const addEvent = (title: string) => {
-    if (selectedDate) {
-      setEvents([...events, { date: selectedDate, title }]);
-    }
+  const addEvent = async (data: {
+    title: string;
+    description?: string;
+    location?: string;
+    startTime: Date;
+    endTime: Date;
+  }) => {
+    // const newEvent = await createEvent(title);
+    console.log("Evento creado:", data.title);
   };
 
   return (
@@ -42,14 +59,14 @@ export const AgendaPageComponent = () => {
             <AddEventForm onAddEvent={addEvent} />
           </CardContent>
         </Card>
-        <Card>
+        {/* <Card>
           <CardHeader>
             <CardTitle>Eventos del Día</CardTitle>
           </CardHeader>
           <CardContent>
             <EventList events={events} selectedDate={selectedDate} />
           </CardContent>
-        </Card>
+        </Card> */}
       </div>
     </div>
   );
