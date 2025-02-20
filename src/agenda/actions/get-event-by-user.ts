@@ -16,20 +16,8 @@ export const getEventByUser = async () => {
   try {
     return await prisma.event.findMany({
       where: { userId },
-      select: {
-        title: true,
-        description: true,
-        createdAt: true,
-        location: true,
-        participants: {
-          select: {
-            user: {
-              select: {
-                name: true,
-              },
-            },
-          },
-        },
+      include: {
+        categories: true,
       },
     });
   } catch (error) {

@@ -2,15 +2,17 @@
 
 import { prisma } from "@/prisma";
 
-export const editEventById = async (id: string) => {
+interface UpdateEventData {
+  title: string;
+  description?: string;
+  location?: string;
+}
+
+export const editEventById = async (id: string, data: UpdateEventData) => {
   try {
     return await prisma.event.update({
       where: { id },
-      data: {
-        title: "Nuevo título",
-        description: "Nueva descripción",
-        location: "Nueva ubicación",
-      },
+      data,
     });
   } catch (error) {
     console.error("Error editando evento:", error);

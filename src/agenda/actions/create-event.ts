@@ -2,6 +2,7 @@
 
 import { auth } from "@/auth";
 import { prisma } from "@/prisma";
+import { revalidatePath } from "next/cache";
 
 interface CreateEventInput {
   title: string;
@@ -24,7 +25,7 @@ export const createEvent = async (input: CreateEventInput) => {
   }
 
   try {
-    return await prisma.event.create({
+    const event = await prisma.event.create({
       data: {
         title,
         description,
@@ -43,6 +44,12 @@ export const createEvent = async (input: CreateEventInput) => {
         categories: true,
       },
     });
+
+    revalidatePath("/");
+
+    return {
+      ok: true,
+    };
   } catch (error) {
     console.log("Error creando evento:", error);
     return null;
