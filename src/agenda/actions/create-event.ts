@@ -25,7 +25,7 @@ export const createEvent = async (input: CreateEventInput) => {
   }
 
   try {
-    const event = await prisma.event.create({
+    await prisma.event.create({
       data: {
         title,
         description,

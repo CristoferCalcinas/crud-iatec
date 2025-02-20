@@ -9,9 +9,19 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { XIcon } from "lucide-react";
 
+interface Event {
+  id: string;
+  title: string;
+  description: string | null;
+  startTime: string;
+  endTime: string;
+  location: string | null;
+  categories: { name: string; color?: string | null }[];
+}
+
 export default function EventsPage() {
-  const [allEvents, setAllEvents] = useState<any[]>([]);
-  const [filteredEvents, setFilteredEvents] = useState<any[]>([]);
+  const [allEvents, setAllEvents] = useState<Event[]>([]);
+  const [filteredEvents, setFilteredEvents] = useState<Event[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -19,8 +29,17 @@ export default function EventsPage() {
     try {
       setIsLoading(true);
       const fetchedEvents = await getEventByUser();
-      setAllEvents(fetchedEvents || []);
-      setFilteredEvents(fetchedEvents || []);
+      if (!fetchedEvents) {
+        return;
+      }
+      const fetchedEventsFormat = fetchedEvents.map((event) => ({
+        ...event,
+        startTime: new Date(event.startTime).toISOString(),
+        endTime: new Date(event.endTime).toISOString(),
+        categories: event.categories || [],
+      }));
+      setAllEvents(fetchedEventsFormat || []);
+      setFilteredEvents(fetchedEventsFormat || []);
     } catch (error) {
       console.error("Error cargando eventos:", error);
     } finally {
@@ -96,7 +115,13 @@ export default function EventsPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {filteredEvents.map((event) => (
                 <Link href={`/edit-event/${event.id}`} key={event.id}>
-                  <EventCard event={event} />
+                  <EventCard
+                    event={{
+                      ...event,
+                      startTime: new Date(event.startTime),
+                      endTime: new Date(event.endTime),
+                    }}
+                  />
                 </Link>
               ))}
             </div>
