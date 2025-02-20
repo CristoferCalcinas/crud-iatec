@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import { AgendaPageComponent } from "../agenda/agenda-page-component";
 import { prisma } from "@/prisma";
 import { EventList } from "@/components/event-list";
+import Link from "next/link";
 
 // Función de ayuda para cargar los eventos del usuario.
 async function loadUserAgenda(userId: string) {
@@ -56,11 +57,17 @@ export default async function AgendaPage() {
     }));
   }
 
-  console.log({ agenda });
-
   return (
     <section className="container mx-auto p-4">
-      <h1 className="text-xl font-semibold py-7 text-center">{title}</h1>
+      <div className="flex justify-between items-center">
+        <h1 className="text-xl font-semibold py-7 text-center">{title}</h1>
+        <Link
+          className="rounded bg-indigo-600 px-2 py-1 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          href="/edit-event"
+        >
+          Ver todos los eventos y filtrarlos
+        </Link>
+      </div>
       <AgendaPageComponent />
 
       <h2 className="text-xl font-semibold py-7 text-center">Eventos</h2>
