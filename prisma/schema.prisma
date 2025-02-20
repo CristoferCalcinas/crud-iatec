@@ -20,6 +20,10 @@ model User {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  createdEvents  Event[]
+  // Participaciones del usuario
+  participations Participant[]
 }
 
 model Account {
@@ -75,4 +79,45 @@ model Authenticator {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([userId, credentialID])
+}
+
+model Event {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  startTime   DateTime
+  endTime     DateTime
+  location    String?
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  categories Category[]
+
+  participants Participant[]
+
+  @@index([userId])
+}
+
+model Category {
+  id     String  @id @default(uuid())
+  name   String
+  color  String?
+  events Event[]
+}
+
+model Participant {
+  id      String @id @default(uuid())
+  userId  String
+  eventId String
+
+  // Relaciones
+  user  User  @relation(fields: [userId], references: [id])
+  event Event @relation(fields: [eventId], references: [id])
+
+  status   String   @default("pending")
+  joinedAt DateTime @default(now())
+
+  @@unique([userId, eventId])
 }
